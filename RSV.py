@@ -1,5 +1,5 @@
 #RedShift Visualizer V0.1
-#Max Coy, 4/24
+#Max Coy, 2/26
 #Python Code for converting audio into a visualized .mp4 format using the redshift caused
 #by gravity
 #Beefy boy, slow boy
