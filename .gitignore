@@ -3,20 +3,27 @@
 
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Temporary renders
+# Temporary render files
 temp_img_holder/
 
-# Output videos
+# Generated output
 *.mp4
 
-# OS
-.DS_Store
+# Windows
+desktop.ini
 Thumbs.db
 
-# Old Reference
+# macOS
+.DS_Store
+
+# VS Code (optional)
+.vscode/
+
+# reference artifacts
 artifacts/
