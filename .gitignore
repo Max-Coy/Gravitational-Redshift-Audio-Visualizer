@@ -1,0 +1,22 @@
+# Virtual environments
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temporary renders
+temp_img_holder/
+
+# Output videos
+*.mp4
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Old Reference
+artifacts/
