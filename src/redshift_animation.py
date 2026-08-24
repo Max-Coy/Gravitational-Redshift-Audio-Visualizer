@@ -10,6 +10,8 @@ from .audio.fft_pipeline import analyze_audio_bounds, grab_freq
 from .render.renderer import build_render_context, build_plot_frame, pool_plotter, cleanup_render_directory
 from .visualization.frames import build_frames
 from .render.ffmpeg_utils import build_video
+from .core.debug import print_config_short, print_config_long
+from .core.helpers import display_map_functions, display_full_frame
 
 class RedshiftAnimation:
     def __init__(self, input_path, output_path = None, config = None):
@@ -126,3 +128,15 @@ class RedshiftAnimation:
 
         if self.config.print_global_progress:
             print("All done :)")
+
+    def __str__(self):
+        return print_config_short(self.config, str(self.input_path), str(self.output_path))
+
+    def details(self):
+        return print_config_long(self.config, str(self.input_path), str(self.output_path))
+
+    def show_mapping_functions(self, function = "all", individual = False, flip = False, figsize=(6,6)):
+        display_map_functions(function, individual, flip, figsize)
+
+    def show_full_frame(self, window = "full", accuracy="normal", dr = None, alpha = 1, save = False):
+        display_full_frame(self.config, window, accuracy, dr, alpha, save)

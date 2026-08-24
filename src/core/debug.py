@@ -26,7 +26,7 @@ def print_config_long(config: RedshiftConfig, filepath: str, output_path: str):
     out += "Flip Frequency Map    :   " + str(config.frequency_flip) + "\n"
     out += "Minimum Frequency     :   {}\n".format(config.min_frequency)
     out += "Maximum Frequency     :   {}\n".format(config.max_frequency)
-    out += "Minimum Volume        :   {}\n".format(config.min_Volume) + "\n"
+    out += "Minimum Volume        :   {}\n".format(config.min_volume) + "\n"
     out += "Volume Offset         :   " + str(config.volume_offset) + "\n"
     out += "Volume Offset Max     :   {}\n".format(config.volume_offset_max)
     out += "Volume Alpha          :   " + str(config.volume_alpha) + "\n"

@@ -83,7 +83,7 @@ def create_frame(
 
     E = find_energy(omega, config)
 
-    return X, dX, Y, dY, E, alpha
+    return [X, dX, Y, dY, E, alpha]
 
 
 def wave_position(wl: float):
