@@ -17,7 +17,8 @@ def main():
         config = config,
         )
 
-    animation.render(resume_from_frame = 0)
+    # a, n = animation.check_frame_pollution()
+    animation.optimize_threshold(thresh_percentage = 0.5)
     # max_f, avg_f = animation.check_frame_pollution()
 
 if __name__ == "__main__":

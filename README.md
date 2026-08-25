@@ -29,7 +29,7 @@ certain key signatures, could have prebuilts or an option to parse something lik
 
  *  sleaker progress bar / update statements, maybe keep current form as explicit option but then set default to a regular progress bar
 
- *  Reimplement helper function: optimize_threshold
+ *  Re-add saving feature to show_full_frame and show_colormap
 
  *  Clean up refactoring, probably still a decent amount of bloat left behind by gpt
 

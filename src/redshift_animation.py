@@ -130,9 +130,15 @@ class RedshiftAnimation:
         if self.config.print_global_progress:
             print("All done :)")
 
-    def check_frame_pollution(self):
+    def check_frame_pollution(self, block_code = True, title = None):
         """
-        Finds the frame with the most active photons in the render, useful for optimizing noise threshold
+        Finds the frame with the most active photons in the render
+
+        Returns two ordered arrays containing all the signal strength values for the most active frame and the 
+        average frame 
+
+        Note that by default, this function haults all further code execution until the figure is closed. You can 
+        disable this by setting block_code = False
         """
         #Start is identical to render()
         samplerate, data = load_audio(self.input_path)
@@ -193,12 +199,52 @@ class RedshiftAnimation:
 
         ax[0].set_title("Most Polluted Frame")
         ax[1].set_title("Average Frame")
-        plt.show()
+        if title:
+            plt.suptitle(title)
+
+        plt.show(block = block_code)
 
         max_f_heights = np.hstack(all_heights[max(frame_max-self.frame_window, 0):frame_max])
         avg_f_heights = np.hstack(all_heights[max(frame_average - self.frame_window, 0):frame_average])
 
         return max_f_heights[max_f_heights.argsort()], avg_f_heights[avg_f_heights.argsort()]
+
+    def optimize_threshold(self, use_max = True, thresh_percentage = None, max_photons: int = 1000):
+        """
+        Attempts to optimize the noise threshold for the render
+        
+        Can use either the most active frame or the average frame for reference
+
+        Can set the threshold based on a percentage of photons you'd like to remove (e.g. setting thresh_percentage = 0.7
+        would remove set the limit to remove 30% of the current photons in the reference frame) or on the absolute limit.
+        Note that setting a valid value ([0,1]) for thresh_percentage will ignore any value given for max_photons
+
+        Returns the output of check_frame_pollution with the modified threshold
+
+        Note that running this function will pause all subsequent code execution until both plots are closed
+        """
+        print("Current Signal Strength Threshold: \n{:.6e}".format(self.config.min_volume))
+        print("Scanning Current Frame Pollution...")
+
+        output = self.check_frame_pollution(block_code = False, title = "Old Signal Threshold")
+        if use_max:
+            reference_frame = output[0]
+        else:
+            reference_frame = output[1]
+        total_signals = len(reference_frame)
+        if thresh_percentage >= 0 and thresh_percentage <= 1:
+            index = int(total_signals * thresh_percentage)
+            self.config.min_volume = reference_frame[index]
+        else: 
+            if max_photons < total_signals:
+                index = max(0, max_photons - 1)
+                self.config.min_volume = reference_frame[index]
+            else:
+                print("Error, Current threshold is Smaller than the new threshold. Please reset self.config.min_volume")
+                return
+        print("Modified Signal Strength Threshold: \n{:.6e}".format(self.config.min_volume))
+
+        return self.check_frame_pollution(block_code = True, title = "New Signal Threshold")
 
 
     def __str__(self):
@@ -210,8 +256,8 @@ class RedshiftAnimation:
     def show_mapping_functions(self, function = "all", individual = False, flip = False, figsize=(6,6)):
         display_map_functions(function, individual, flip, figsize)
 
-    def show_full_frame(self, window = "full", accuracy="normal", dr = None, alpha = 1, save = False):
+    def show_full_frame(self, window = "full", accuracy="normal", dr = None, alpha = 1, save = False): #saving is currently disabled
         display_full_frame(self.config, window, accuracy, dr, alpha, save)
 
-    def show_colormap(self, save = False):
+    def show_colormap(self, save = False): #saving is currently disabled
         display_colormap(self.config, save)
