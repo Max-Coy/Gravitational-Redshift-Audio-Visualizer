@@ -17,7 +17,8 @@ def main():
         config = config,
         )
 
-    animation.render(resume_from_frame = 0)
+    # animation.render(resume_from_frame = 0)
+    animation.show_colormap()
 
 if __name__ == "__main__":
     main()

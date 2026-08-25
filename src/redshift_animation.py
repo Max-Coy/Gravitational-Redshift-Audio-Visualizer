@@ -11,7 +11,7 @@ from .render.renderer import build_render_context, build_plot_frame, pool_plotte
 from .visualization.frames import build_frames
 from .render.ffmpeg_utils import build_video
 from .core.debug import print_config_short, print_config_long
-from .core.helpers import display_map_functions, display_full_frame
+from .core.helpers import display_map_functions, display_full_frame, display_colormap
 
 class RedshiftAnimation:
     def __init__(self, input_path, output_path = None, config = None):
@@ -140,3 +140,6 @@ class RedshiftAnimation:
 
     def show_full_frame(self, window = "full", accuracy="normal", dr = None, alpha = 1, save = False):
         display_full_frame(self.config, window, accuracy, dr, alpha, save)
+
+    def show_colormap(self, save = False):
+        display_colormap(self.config, save)

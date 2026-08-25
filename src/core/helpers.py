@@ -2,7 +2,7 @@ from .mappings import MAPPINGS
 from .config import RedshiftConfig
 from .constants import SPEED_OF_LIGHT, WAVELENGTH_MIN_NM, WAVELENGTH_MAX_NM, WAVELENGTH_RANGE_NM
 from ..visualization.frames import colormapper, create_frame
-from ..physics.redshift_model import calc_inverse_frequency
+from ..physics.redshift_model import calc_inverse_frequency, map_frequency_to_color, find_energy
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -98,5 +98,65 @@ def display_full_frame(config: RedshiftConfig, window = "full", accuracy="normal
         plt.axis('off');
         # if save:
         #     plt.savefig(a.filepath.split('.')[0] + "_Full_Frame.png", format='png',bbox_inches='tight');
+        plt.show();
+        return
+
+def display_colormap(config: RedshiftConfig, save = False):
+        #Plots example colormap
+
+        w2r = np.genfromtxt("src/w2r_blend.csv", delimiter=" ") #same issue as display full frame
+
+        x_points = np.linspace(330,890,1236)
+        for x in x_points: #plotting background
+            plt.hlines(x, 0, 1, color = colormapper(x, config, w2r))
+
+        rI = config.r - config.volume_offset_max
+        l = config.min_frequency - (config.min_frequency % 20)
+        h = config.max_frequency - (config.max_frequency % 20)
+        full_freq = np.arange(l, h+1, 20)
+        f = (config.max_frequency - full_freq) * config.frequency_flip + full_freq * (not config.frequency_flip) #checking for freq. flip
+        f = f % (config.max_frequency / config.colormap_periods) #checking for periods
+        f = f * (not config.colormap_mirror) + np.abs(f - config.max_frequency/(config.colormap_periods*2)) * config.colormap_mirror #checking for mirror
+
+        omega =  SPEED_OF_LIGHT / map_frequency_to_color(f, 
+                                                         WAVELENGTH_MIN_NM + WAVELENGTH_RANGE_NM * config.colormap_range[0],
+                                                         WAVELENGTH_MAX_NM * config.colormap_range[1],
+                                                         config)
+        E = find_energy(omega, config)
+        dist = rI
+        wnI = calc_inverse_frequency(E, dist, config) 
+
+        lam = wnI * SPEED_OF_LIGHT
+        lam[lam < x_points[0]] = x_points[0] * 0.995
+        lam[lam > x_points[-1]] = x_points[-1] * 1.005
+        xp = (full_freq / config.max_frequency) % 1
+
+        plt.plot(xp[xp.argsort()], lam[xp.argsort()], color='black', label= 'Minimum Redshift')
+
+        ang = xp * 2 * np.pi
+        a1 = np.cos(ang)
+        a2 = np.sin(ang)
+        md = 6 / (np.vstack(np.abs([a1, a2])).T).max(axis=1) #max distance
+
+        for i in range(len(E)):
+            wnI[i] = calc_inverse_frequency(E[i], md[i], config) 
+
+        lam = wnI * SPEED_OF_LIGHT
+        lam[lam < x_points[0]] = x_points[0] * 0.995
+        lam[lam > x_points[-1]] = x_points[-1] * 1.005
+        xp = (full_freq / config.max_frequency) % 1
+
+        plt.plot(xp[xp.argsort()], lam[xp.argsort()], linestyle='dashed', color='black', label='Maximum Redshift')
+        plt.xlim(0,1)
+        plt.ylim(x_points[0], x_points[-1])
+        plt.xticks([]);
+        plt.text(0.0, x_points[0] - 0.15 * x_points[0], "Low Frequency")
+        plt.text(0.77, x_points[0] - 0.15 * x_points[0], "High Frequency")
+        plt.ylabel('Output Color')
+        plt.legend()
+        plt.yticks([]);
+        plt.title('Output Color Mapping');
+        # if save:
+        #     plt.savefig(a.filepath.split('.')[0] + "_Colormap.png", format='png',bbox_inches='tight');
         plt.show();
         return
