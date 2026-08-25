@@ -17,8 +17,8 @@ def main():
         config = config,
         )
 
-    # animation.render(resume_from_frame = 0)
-    animation.show_colormap()
+    animation.render(resume_from_frame = 0)
+    # max_f, avg_f = animation.check_frame_pollution()
 
 if __name__ == "__main__":
     main()

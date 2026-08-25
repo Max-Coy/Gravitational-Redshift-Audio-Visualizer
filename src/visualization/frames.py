@@ -7,7 +7,7 @@ from ..core.mappings import MAPPINGS
 from ..physics.redshift_model import find_energy, map_frequency_to_color, freq_to_angle
 from ..core.config import RedshiftConfig
 
-def build_frames(data, N, xf, max_H, config: RedshiftConfig):
+def build_frames(data, N, xf, max_H, config: RedshiftConfig, return_all_heights = False):
     """
     Converts windowed audio signal into frame representations.
 
@@ -26,6 +26,8 @@ def build_frames(data, N, xf, max_H, config: RedshiftConfig):
     num_frames = len(data) // N
     
     frames = []
+    if return_all_heights:
+        all_heights = [] # used by the check_frame_pollution function for optmizing noise threshold
 
     for i in range(num_frames):
         start = i * N
@@ -38,7 +40,13 @@ def build_frames(data, N, xf, max_H, config: RedshiftConfig):
 
         frames.append(frame)
 
-    return frames
+        if return_all_heights:
+            all_heights.append(heights)
+    
+    if return_all_heights:
+        return frames, all_heights
+    else:
+        return frames
 
 
 def create_frame(
