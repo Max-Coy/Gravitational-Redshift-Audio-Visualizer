@@ -7,13 +7,46 @@ from ..physics.redshift_model import calc_inverse_frequency, map_frequency_to_co
 import numpy as np
 import matplotlib.pyplot as plt
 
+def display_progress_bar(current_progress: float, character_length: int = 10):
+    """
+    Displays a simple progress bar
+    """
+    empty_square = '░'
+    half_square = '▒'
+    full_square = '█'
+    if current_progress < 0:
+        print(f"Error, current progress is {current_progress}\nPlease give a number larger than 0")
+        return
+    elif current_progress >= 1:
+        print(full_square * character_length + '\r', end = '')
+        return
+        
+    total_states = character_length * 2 + 1
+    steps = 1 / total_states
+    current_state = current_progress // steps
+
+    if current_state == total_states: #Full progress bar is reserved for 100% completion
+        current_state -= 1
+
+    filled_squares = int(current_state - current_state // 2)
+    end_in_full = ((current_state - 1) % 2) == 1
+    if end_in_full:
+        progress = full_square * filled_squares
+    else:
+        progress = full_square * (filled_squares - 1) + half_square
+
+    progress += empty_square * (character_length - filled_squares)
+
+    print(progress + '\r', end = '')
+
 
 def display_map_functions(function = "all", individual = False, flip = False, figsize=(6,6)):
-        #Plots examples of all saved mapping functions
-        #Plots all functions by default, can be specified to plot 1
-        #Plots all maps on one plot by default
-        #Set flip to true to invert mapping
-
+        """
+        Plots examples of all saved mapping functions
+        Plots all functions by default, can be specified to plot 1
+        Plots all maps on one plot by default
+        Set flip to true to invert mapping
+        """
         xp = np.linspace(0,1,500)
         if function == "all": #plotting all maps
             funcs = list(MAPPINGS.keys())
@@ -43,11 +76,13 @@ def display_map_functions(function = "all", individual = False, flip = False, fi
         return
 
 def display_full_frame(config: RedshiftConfig, window = "full", accuracy="normal", dr = None, alpha = 1, save = False):
-        #Works but is really slow for some reason? Slightly concerning for actual code speed
-        #Plots a fully populated frame
-        #Accuracy can be 'quick', 'normal', or 'high'
-        #Setting dr value takes priority over accuracy
-       
+        """
+        Plots a fully populated frame
+        Accuracy can be 'quick', 'normal', or 'high'
+        Setting dr value takes priority over accuracy
+        Saving is currently disabled
+       """
+        
         w2r = np.genfromtxt("src/w2r_blend.csv", delimiter=" ") #not clean, might want to refactor colormapper function?
 
         if dr == None:
@@ -102,7 +137,11 @@ def display_full_frame(config: RedshiftConfig, window = "full", accuracy="normal
         return
 
 def display_colormap(config: RedshiftConfig, save = False):
-        #Plots example colormap
+        """
+        A faster alternative to display_full_frame()
+        Makes a simple plot of the minimum and maximum redshift for a given wavelength based on the 
+        current config. Saving is currently disabled
+        """
 
         w2r = np.genfromtxt("src/w2r_blend.csv", delimiter=" ") #same issue as display full frame
 

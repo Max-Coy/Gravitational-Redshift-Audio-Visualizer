@@ -12,7 +12,7 @@ from .render.renderer import build_render_context, build_plot_frame, pool_plotte
 from .visualization.frames import build_frames
 from .render.ffmpeg_utils import build_video
 from .core.debug import print_config_short, print_config_long
-from .core.helpers import display_map_functions, display_full_frame, display_colormap
+from .core.helpers import display_map_functions, display_full_frame, display_colormap, display_progress_bar
 
 class RedshiftAnimation:
     def __init__(self, input_path, output_path = None, config = None):
@@ -79,6 +79,8 @@ class RedshiftAnimation:
         if self.config.print_global_progress:
             print('Required Number of Frames: {:.0f}'.format(np.ceil(len(data) / analysis[4] - 1)))
             print('Creating Animation Frames...')
+            if not self.config.print_local_progress:
+                display_progress_bar(0, self.config.progress_bar_length)
         
 
         #determining how many runs will be required to render all frames as determined by batchsize
@@ -88,15 +90,14 @@ class RedshiftAnimation:
 
         for batch_idx in range(start_batch, counts):
 
-            plots = []
-            t = datetime.datetime.now()
-
-            start = batch_idx * self.config.batch_size
-            stop = min((batch_idx + 1) * self.config.batch_size, num_frames)
-
             if self.config.print_local_progress:
+                t = datetime.datetime.now()
                 print(f"Current Batch: {start} - {stop - 1}")
                 print("\tOrganizing Frames")
+
+            plots = []
+            start = batch_idx * self.config.batch_size
+            stop = min((batch_idx + 1) * self.config.batch_size, num_frames)
 
             for i in range(start, stop):
                 plotF = build_plot_frame(
@@ -114,10 +115,14 @@ class RedshiftAnimation:
                 print('\tDrawing Frames')
             
             pool_plotter(self.config.cores, filenames[start:stop], plots, self.config)
-            dt = datetime.datetime.now()
-
+            
             if self.config.print_local_progress:
+                dt = datetime.datetime.now()
                 print('Elapsed time: ' + str(dt - t))
+            elif self.config.print_global_progress:
+                total_frames = np.ceil(len(data) / analysis[4] - 1)
+                current_progress = stop / total_frames 
+                display_progress_bar(current_progress, self.config.progress_bar_length)
 
         
         if self.config.print_global_progress:

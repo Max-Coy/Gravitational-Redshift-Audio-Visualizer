@@ -20,7 +20,7 @@ class RedshiftConfig:
     figsize: tuple[float, float] = (6,6) # dimensions of render in inches
     xlim: float = 6
     ylim: float = 6
-    batch_size: int = 60 # sets how many frames will be rendered at once
+    batch_size: int = 40 # sets how many frames will be rendered at once
     cores: int = 1 # sets how many cores will be used during rendering
 
     # Colormap
@@ -46,4 +46,5 @@ class RedshiftConfig:
     remove_temp_dirs: bool = True
     print_global_progress: bool = True
     print_local_progress: bool = False
+    progress_bar_length = 20
 

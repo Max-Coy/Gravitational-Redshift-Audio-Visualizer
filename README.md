@@ -27,8 +27,6 @@ certain key signatures, could have prebuilts or an option to parse something lik
  *  make sure we are clearing folder for temp output before we start saving (and or making sure we don't have any extra files
  e.g. we make a render with 1000 frames, and then one with 500, making sure frames 501-1000 are not accidentally in second render)
 
- *  sleaker progress bar / update statements, maybe keep current form as explicit option but then set default to a regular progress bar
-
  *  Re-add saving feature to show_full_frame and show_colormap
 
  *  Clean up refactoring, probably still a decent amount of bloat left behind by gpt

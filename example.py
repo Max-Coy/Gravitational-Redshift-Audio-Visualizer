@@ -8,7 +8,7 @@ ROOT = Path(__file__).parent
 
 def main():
     config = RedshiftConfig()
-    config.print_local_progress = True
+    # config.print_local_progress = True
     config.cores = 1
 
     animation = RedshiftAnimation(
@@ -17,9 +17,7 @@ def main():
         config = config,
         )
 
-    # a, n = animation.check_frame_pollution()
-    animation.optimize_threshold(thresh_percentage = 0.5)
-    # max_f, avg_f = animation.check_frame_pollution()
+    animation.render(resume_from_frame = 0)
 
 if __name__ == "__main__":
     main()
