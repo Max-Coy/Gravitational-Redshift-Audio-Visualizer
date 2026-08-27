@@ -18,7 +18,7 @@ The resulting motion and spectral evolution are rendered as a sequence of frames
 ## TODO
  *  Add option for leading or trailing silence
 
- *  Some option to have the output rotate as the song progresses, either volume dependant or via set rate (or mix of both)
+ *  Some option to have the output rotate as the song progresses, either volume dependant or via set rate (or mix of both), would have to play nice and/or be mutually exclusive with drawing the key signature
 
  *  make sure we are clearing folder for temp output before we start saving (and or making sure we don't have any extra files
  e.g. we make a render with 1000 frames, and then one with 500, making sure frames 501-1000 are not accidentally in second render)
