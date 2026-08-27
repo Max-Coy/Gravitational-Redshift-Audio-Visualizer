@@ -9,6 +9,7 @@ from .core.config import RedshiftConfig
 from .audio.audio_utils import load_audio, mp3_to_wav
 from .audio.fft_pipeline import analyze_audio_bounds, grab_freq
 from .render.renderer import build_render_context, build_plot_frame, pool_plotter, cleanup_render_directory
+from .render.music_theory import update_frequency_bounds
 from .visualization.frames import build_frames
 from .render.ffmpeg_utils import build_video
 from .core.debug import print_config_short, print_config_long
@@ -48,6 +49,9 @@ class RedshiftAnimation:
     def render(self, resume_from_frame = 0):
         if self.config.print_global_progress:
             print("Loading Data...")
+
+        if self.config.draw_key_signature: # if we are going to draw the key sig we want to make sure frequency bounds are appropriate
+            update_frequency_bounds(self.config)
 
         samplerate, data = load_audio(self.input_path)
 

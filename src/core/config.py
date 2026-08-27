@@ -41,6 +41,20 @@ class RedshiftConfig:
     volume_alpha_range: tuple[float, float] = (0.5, 1.0)
     volume_alpha_mapping: str = "sigmoid2"
 
+    # Music Theory / Key Signature Rendering
+    draw_key_signature = False
+    key_signature = "C"
+    notes = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] # default is C major notes
+    note_octaves: tuple[int, int] = (0, 8) # Octaves can only span from 0 - 8 inclusive
+    note_labels = True
+    note_label_size = 8
+    note_label_offset = 0.14
+    note_label_distance = 0.45
+    key_signature_color = "gray"
+    key_signature_alpha = 0.5
+    
+
+
     # IO / runtime
     temp_dirs: str = "temp_img_holder"
     remove_temp_dirs: bool = True

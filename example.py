@@ -17,6 +17,11 @@ def main():
         config = config,
         )
 
+    config.draw_key_signature = True
+    config.notes = ["C"]
+    config.frequency_mapping = "sqrt"
+    config.note_octaves = (2, 6)
+    
     animation.render(resume_from_frame = 0)
 
 if __name__ == "__main__":

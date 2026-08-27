@@ -16,10 +16,6 @@ The resulting motion and spectral evolution are rendered as a sequence of frames
 - Automated video assembly with audio synchronization
 
 ## TODO
- *  Maybe add graph lines to show where notes are (e.g. A4, B4 ...) could add configurations to show lines for 
-certain key signatures, could have prebuilts or an option to parse something like 
-[A, B#, Cb, D ... G]
-
  *  Add option for leading or trailing silence
 
  *  Some option to have the output rotate as the song progresses, either volume dependant or via set rate (or mix of both)

@@ -1,0 +1,15 @@
+a,A,B,C,D,E,F,G
+e,E,F#,G,A,B,C,D
+b,B,C#,D,E,F#,G,A
+f#,F#,G#,A,B,C#,D,E
+c#,C#,D#,E,F#,G#,A,B
+g#,G#,A#,B,C#,D#,E,F#
+d#,D#,E#,F#,G#,A#,B,C#
+a#,A#,B#,C#,D#,E#,F#,G#
+d,D,E,F,G,A,Bb,C
+g,G,A,Bb,C,D,Eb,F
+c,C,D,Eb,F,G,Ab,Bb
+f,F,G,Ab,Bb,C,Db,Eb
+bb,Bb,C,Db,Eb,F,Gb,Ab
+eb,Eb,F,Gb,Ab,Bb,Cb,Db
+ab,Ab,Bb,Cb,Db,Eb,Fb,Gb

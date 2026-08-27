@@ -9,6 +9,7 @@ from ..core.constants import SPEED_OF_LIGHT
 from ..visualization.frames import colormapper
 from ..core.config import RedshiftConfig
 from ..core.mappings import MAPPINGS
+from .music_theory import draw_key_signature
 
 def build_plot_frame(
     i,
@@ -216,6 +217,8 @@ def anim_plotter(inputs):
         ax.set_xticks([])
         ax.set_yticks([])
 
+        if config.draw_key_signature:
+            draw_key_signature(config, ax)
         
         fig.savefig(fn_list[i], bbox_inches="tight")
 
