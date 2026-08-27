@@ -16,6 +16,8 @@ The resulting motion and spectral evolution are rendered as a sequence of frames
 - Automated video assembly with audio synchronization
 
 ## TODO
+ * There appears to be some issue with the new key signature function and the colormapping causing there to be multiple periods even if the config file is set to 1. Potentially the conflict is arising from the use of update_frequency_bounds. Will need to investigate and fix
+ 
  *  Add option for leading or trailing silence
 
  *  Some option to have the output rotate as the song progresses, either volume dependant or via set rate (or mix of both), would have to play nice and/or be mutually exclusive with drawing the key signature

@@ -11,16 +11,22 @@ def main():
     # config.print_local_progress = True
     config.cores = 1
 
+    # animation = RedshiftAnimation(
+    #     input_path = ROOT / "assets" / "example.wav", # Input path 
+    #     output_path = ROOT / "example.mp4",
+    #     config = config,
+    #     )
+
     animation = RedshiftAnimation(
-        input_path = ROOT / "assets" / "example.wav", # Input path 
-        output_path = ROOT / "example.mp4",
-        config = config,
-        )
+            input_path = ROOT / "private_assets" / "City Girl - Siren of the Formless - 05 Silver Ribbons in Lavender Hair.mp3", # Input path 
+            output_path = ROOT / "Silver Ribbons in Lavender Hair.mp4",
+            config = config,
+            )
 
     config.draw_key_signature = True
     config.notes = ["C"]
     config.frequency_mapping = "sqrt"
-    config.note_octaves = (2, 6)
+    config.note_octaves = (1, 7)
     
     animation.render(resume_from_frame = 0)
 
