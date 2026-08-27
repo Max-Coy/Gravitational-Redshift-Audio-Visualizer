@@ -22,7 +22,7 @@ Thumbs.db
 # macOS
 .DS_Store
 
-# VS Code (optional)
+# VS Code
 .vscode/
 
 # reference artifacts
